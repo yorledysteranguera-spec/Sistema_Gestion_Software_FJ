@@ -1,0 +1,62 @@
+
+# ==================================================
+# ENTIDADES DEL SISTEMA SOFTWARE FJ
+# ==================================================
+
+from abc import ABC, abstractmethod
+from excepciones import DatosInvalidosError
+
+
+class Entidad(ABC):
+    """Clase abstracta que representa una entidad general."""
+
+    def __init__(self, identificador):
+        if not identificador:
+            raise DatosInvalidosError(
+                "El identificador es obligatorio."
+            )
+        self._identificador = identificador
+
+    @abstractmethod
+    def mostrar_informacion(self):
+        pass
+
+
+class Cliente(Entidad):
+    """Representa un cliente registrado en Software FJ."""
+
+    def __init__(self, identificador, nombre, correo, telefono):
+        super().__init__(identificador)
+
+        if not isinstance(nombre, str) or not nombre.strip():
+            raise DatosInvalidosError("El nombre es obligatorio.")
+
+        if not isinstance(correo, str) or "@" not in correo:
+            raise DatosInvalidosError("El correo no es válido.")
+
+        if not isinstance(telefono, str) or not telefono.strip():
+            raise DatosInvalidosError("El teléfono es obligatorio.")
+
+        self.__nombre = nombre.strip()
+        self.__correo = correo.strip()
+        self.__telefono = telefono.strip()
+
+    @property
+    def nombre(self):
+        return self.__nombre
+
+    @property
+    def correo(self):
+        return self.__correo
+
+    @property
+    def telefono(self):
+        return self.__telefono
+
+    def mostrar_informacion(self):
+        return (
+            f"ID: {self._identificador} | "
+            f"Nombre: {self.__nombre} | "
+            f"Correo: {self.__correo} | "
+            f"Teléfono: {self.__telefono}"
+        )
