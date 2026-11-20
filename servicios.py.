@@ -1,0 +1,87 @@
+
+# ==================================================
+# SERVICIOS ESPECIALIZADOS - SOFTWARE FJ
+# ==================================================
+
+from abc import ABC, abstractmethod
+from excepciones import DatosInvalidosError
+
+
+class Servicio(ABC):
+    """Clase abstracta para los servicios de Software FJ."""
+
+    def __init__(self, nombre, precio_base):
+        if not nombre or not isinstance(nombre, str):
+            raise DatosInvalidosError("El nombre del servicio es obligatorio.")
+
+        if not isinstance(precio_base, (int, float)) or isinstance(precio_base, bool) or precio_base <= 0:
+            raise DatosInvalidosError("El precio debe ser mayor que cero.")
+
+        self.nombre = nombre
+        self.precio_base = precio_base
+
+    @abstractmethod
+    def calcular_costo(self, duracion, descuento=0):
+        pass
+
+    @abstractmethod
+    def describir_servicio(self):
+        pass
+
+    @abstractmethod
+    def validar_parametros(self, duracion):
+        pass
+
+
+class ReservaSala(Servicio):
+    """Servicio de reserva de salas."""
+
+    def validar_parametros(self, duracion):
+        if not isinstance(duracion, (int, float)) or isinstance(duracion, bool) or duracion <= 0:
+            raise DatosInvalidosError("Las horas deben ser mayores que cero.")
+
+    def calcular_costo(self, duracion, descuento=0):
+        self.validar_parametros(duracion)
+        if not 0 <= descuento <= 100:
+            raise DatosInvalidosError("Descuento inválido.")
+        subtotal = self.precio_base * duracion
+        return subtotal * (1 - descuento / 100)
+
+    def describir_servicio(self):
+        return "Reserva de salas para reuniones y actividades."
+
+
+class AlquilerEquipos(Servicio):
+    """Servicio de alquiler de equipos."""
+
+    def validar_parametros(self, duracion):
+        if not isinstance(duracion, (int, float)) or isinstance(duracion, bool) or duracion <= 0:
+            raise DatosInvalidosError("Los días deben ser mayores que cero.")
+
+    def calcular_costo(self, duracion, descuento=0):
+        self.validar_parametros(duracion)
+        if not 0 <= descuento <= 100:
+            raise DatosInvalidosError("Descuento inválido.")
+        subtotal = self.precio_base * duracion
+        return subtotal * (1 - descuento / 100)
+
+    def describir_servicio(self):
+        return "Alquiler de computadores y equipos tecnológicos."
+
+
+class AsesoriaEspecializada(Servicio):
+    """Servicio de asesorías especializadas."""
+
+    def validar_parametros(self, duracion):
+        if not isinstance(duracion, (int, float)) or isinstance(duracion, bool) or duracion <= 0:
+            raise DatosInvalidosError("Las horas deben ser mayores que cero.")
+
+    def calcular_costo(self, duracion, descuento=0):
+        self.validar_parametros(duracion)
+        if not 0 <= descuento <= 100:
+            raise DatosInvalidosError("Descuento inválido.")
+        subtotal = self.precio_base * duracion
+        return subtotal * (1 - descuento / 100)
+
+    def describir_servicio(self):
+        return "Asesorías profesionales y especializadas."
