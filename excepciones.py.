@@ -1,0 +1,28 @@
+
+# ==================================================
+# EXCEPCIONES PERSONALIZADAS - SOFTWARE FJ
+# ==================================================
+
+class ErrorSistema(Exception):
+    """Error general del sistema Software FJ."""
+    pass
+
+
+class DatosInvalidosError(ErrorSistema):
+    """Se presenta cuando los datos ingresados son incorrectos."""
+    pass
+
+
+class ServicioNoDisponibleError(ErrorSistema):
+    """Se presenta cuando un servicio no está disponible."""
+    pass
+
+
+class ReservaInvalidaError(ErrorSistema):
+    """Se presenta cuando una reserva no cumple las condiciones."""
+    pass
+
+
+class OperacionNoPermitidaError(ErrorSistema):
+    """Se presenta cuando una operación no está permitida."""
+    pass
